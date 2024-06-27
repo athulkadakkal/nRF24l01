@@ -6,7 +6,7 @@
 * 
 * Library: TMRh20/RF24, https://github.com/tmrh20/RF24/
 * 
-* arduino nano tx
+* arduino  tx
 */
 
 #include <SPI.h>
@@ -17,6 +17,12 @@ RF24 radio(7, 8); // CE, CSN
 
 const byte address[6] = "00001";
 int data =0;
+
+// Struct to hold sensor data
+struct SensorData {
+  float temperature;
+  float humidity;
+};
 void setup() {
   
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -40,11 +46,33 @@ void setup() {
 }
 
 void loop() {
-  //const char text[] = "Hello World";
-  //radio.write(&text, sizeof(text));
+  /*
+
+    for sending string
+    ------------------
+
+    const char text[] = "Hello World";
+    radio.write(&text, sizeof(text));
+
+    for sending int 
+    ---------------
+
+    radio.write(&data, sizeof(data));
+    Serial.println(data);
+    data++;
+
+  
+  */
+  
+  SensorData data;
+  
+  // Simulate sensor readings (replace with actual sensor readings)
+  data.temperature = 25.5;  // Example temperature value
+  data.humidity = 50.0;     // Example humidity value
+
+
   radio.write(&data, sizeof(data));
-  Serial.println(data);
-  data++;
+  
   Serial.println(F("radio hardware is sending >> "));
   
   delay(1000);
