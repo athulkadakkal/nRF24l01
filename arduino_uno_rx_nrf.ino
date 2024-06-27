@@ -6,7 +6,7 @@
 * 
 * Library: TMRh20/RF24, https://github.com/tmrh20/RF24/
 * 
-* arduino uno rx 
+* arduino rx 
 */
 
 #include <SPI.h>
@@ -17,6 +17,13 @@ RF24 radio(7, 8); // CE, CSN
 
 const byte address[6] = "00001";
 int count =0;
+
+// Struct to hold received sensor data
+struct SensorData {
+  float temperature;
+  float humidity;
+};
+
 
 void setup() {
   Serial.begin(9600);
@@ -42,13 +49,30 @@ void loop() {
   
   if (radio.available()) {
     Serial.println(F("radio signal is available >> "));
-    //char text[32] = "";
-    //radio.read(&text, sizeof(text));
-    //Serial.print(text);
 
-    int data;
-    radio.read(&data, sizeof(data));
-    Serial.print(data);
+    /*
+
+    receiving char 
+    -------------
+      char text[32] = "";
+      radio.read(&text, sizeof(text));
+      Serial.print(text);
+
+     receiving int 
+     ------------
+        int data;
+        radio.read(&data, sizeof(data));
+        Serial.print(data);
+    
+    */
+    
+    SensorData receivedData;
+    radio.read(&receivedData, sizeof(receivedData));
+    Serial.print("Received data - Temperature: ");
+    Serial.print(receivedData.temperature);
+    Serial.print(" °C, Humidity: ");
+    Serial.print(receivedData.humidity);
+    Serial.println(" %");
     
     Serial.print(" ");
     Serial.println(count);
